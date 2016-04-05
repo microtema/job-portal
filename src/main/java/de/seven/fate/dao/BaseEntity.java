@@ -1,5 +1,7 @@
 package de.seven.fate.dao;
 
+import de.seven.fate.listener.entity.TimestampListener;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -8,6 +10,7 @@ import java.util.Date;
  * Created by Mario on 05.04.2016.
  */
 @MappedSuperclass
+@EntityListeners(TimestampListener.class)
 public class BaseEntity<I extends Serializable> implements IdAble<I> {
 
     @Id

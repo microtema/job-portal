@@ -3,6 +3,8 @@ package de.seven.fate.address.builder;
 import de.seven.fate.address.model.Address;
 import de.seven.fate.model.builder.AbstractModelBuilder;
 
+import javax.inject.Inject;
+
 /**
  * Created by Mario on 05.04.2016.
  */

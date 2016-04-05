@@ -13,7 +13,6 @@ import java.util.Objects;
  * Created by Mario on 05.04.2016.
  */
 @Entity
-@EntityListeners(TimestampListener.class)
 public class Address extends BaseEntity<Long> {
 
     private String street;
