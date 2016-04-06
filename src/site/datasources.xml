@@ -1,0 +1,27 @@
+<subsystem xmlns="urn:jboss:domain:datasources:4.0">
+    <datasources>
+        <datasource jta="true" jndi-name="java:jboss/datasources/job-portal" pool-name="job-portal" enabled="true" use-java-context="true" use-ccm="true">
+            <connection-url>jdbc:sqlserver://localhost:1433;DatabaseName=job-portal</connection-url>
+            <driver>sqlserver</driver>
+            <transaction-isolation>TRANSACTION_READ_COMMITTED</transaction-isolation>
+            <security>
+                <user-name>sa</user-name>
+                <password>secret</password>
+            </security>
+            <validation>
+                <valid-connection-checker class-name="org.jboss.jca.adapters.jdbc.extensions.mssql.MSSQLValidConnectionChecker"/>
+                <background-validation>true</background-validation>
+                <background-validation-millis>30000</background-validation-millis>
+            </validation>
+            <statement>
+                <prepared-statement-cache-size>1000</prepared-statement-cache-size>
+                <share-prepared-statements>true</share-prepared-statements>
+            </statement>
+        </datasource>
+        <drivers>
+            <driver name="sqlserver" module="com.sqlserver">
+                <xa-datasource-class>com.microsoft.sqlserver.jdbc.SQLServerXADataSource</xa-datasource-class>
+            </driver>
+        </drivers>
+    </datasources>
+</subsystem>
