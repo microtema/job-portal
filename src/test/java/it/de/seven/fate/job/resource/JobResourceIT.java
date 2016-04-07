@@ -7,6 +7,7 @@ import de.seven.fate.job.model.builder.JobEntryVOBuilder;
 import de.seven.fate.job.resource.JobEntryResource;
 import de.seven.fate.job.vo.JobEntryVO;
 import de.seven.fate.rest.interceptor.ErrorMessage;
+import de.seven.fate.salary.model.JobEntryState;
 import it.de.seven.fate.util.DeploymentUtil;
 import org.jboss.arquillian.container.test.api.Deployment;
 import org.jboss.arquillian.container.test.api.RunAsClient;
@@ -56,6 +57,9 @@ public class JobResourceIT {
     List<JobEntry> models;
 
     GenericType<List<JobEntryVO>> JobEntryVOList = new GenericType<List<JobEntryVO>>() {
+    };
+
+    GenericType<List<String>> JobEntryStatusList = new GenericType<List<String>>() {
     };
 
     JobEntryVOBuilder voBuilder = new JobEntryVOBuilder();
@@ -241,6 +245,31 @@ public class JobResourceIT {
         ErrorMessage entity = clientResponse.getEntity();
 
         Assert.assertNotNull(entity);
+    }
+
+    @Test
+    @RunAsClient
+    @InSequence(2)
+    public void getJobEntryStatus(@ArquillianResource URL baseURL) throws Exception {
+
+        JobEntryVO vo = voBuilder.random();
+        vo.setId(null);
+        //given
+
+        //when
+        ClientRequest request = new ClientRequest(new URL(baseURL, "rest/job/status").toExternalForm());
+        request.accept(MediaType.APPLICATION_JSON);
+        request.setHttpMethod("GET");
+        ClientResponse<List<String>> clientResponse = request.get(JobEntryStatusList);
+
+        //then
+        assertEquals(Response.Status.OK.getStatusCode(), clientResponse.getStatus());
+
+        List<String> entity = clientResponse.getEntity();
+
+        Assert.assertNotNull(entity);
+        Assert.assertEquals(JobEntryState.values().length, entity.size());
+        entity.forEach(JobEntryState::valueOf);
     }
 
     private void transactional(Runnable runnable) throws Exception {

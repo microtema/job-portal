@@ -2,6 +2,7 @@ package de.seven.fate.job.model;
 
 import de.seven.fate.appointment.model.Appointment;
 import de.seven.fate.converter.URLConverter;
+import de.seven.fate.copmany.model.Company;
 import de.seven.fate.dao.BaseEntity;
 import de.seven.fate.person.model.Person;
 import de.seven.fate.salary.model.JobEntryState;
@@ -25,6 +26,9 @@ public class JobEntry extends BaseEntity<Long> {
 
     @NotNull
     private String description;
+
+    @OneToOne
+    private Company copmany;
 
     @Convert(converter = URLConverter.class)
     private URL url;
@@ -130,6 +134,14 @@ public class JobEntry extends BaseEntity<Long> {
         this.labels = labels;
     }
 
+    public Company getCopmany() {
+        return copmany;
+    }
+
+    public void setCopmany(Company copmany) {
+        this.copmany = copmany;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
@@ -143,13 +155,14 @@ public class JobEntry extends BaseEntity<Long> {
                 Objects.equals(salary, jobEntry.salary) &&
                 Objects.equals(humanResource, jobEntry.humanResource) &&
                 Objects.equals(jobHunter, jobEntry.jobHunter) &&
+                Objects.equals(copmany, jobEntry.copmany) &&
                 Objects.equals(new ArrayList<>(appointments), new ArrayList<>(jobEntry.appointments)) &&
                 Objects.equals(labels, jobEntry.labels);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, description, url, state, salary, humanResource, jobHunter, favorite, appointments, labels);
+        return Objects.hash(title, description, url, state, salary, humanResource, jobHunter, favorite, appointments, labels, copmany);
     }
 
     @Override
@@ -157,6 +170,7 @@ public class JobEntry extends BaseEntity<Long> {
         return new ToStringBuilder(this)
                 .append("title", title)
                 .append("description", description)
+                .append("copmany", copmany)
                 .append("url", url)
                 .append("state", state)
                 .append("salary", salary)

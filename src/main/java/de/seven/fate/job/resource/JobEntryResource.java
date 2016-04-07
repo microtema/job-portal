@@ -62,4 +62,12 @@ public class JobEntryResource {
 
         return Response.ok(facade.updateJobEntry(jobEntry)).build();
     }
+
+    @GET
+    @Path("/status")
+    public Response getJobEntryStatus() {
+        logger.info("get all job status");
+
+        return Response.ok(facade.getJobEntryStatus()).build();
+    }
 }
