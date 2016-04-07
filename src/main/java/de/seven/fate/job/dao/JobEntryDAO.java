@@ -28,23 +28,41 @@ public class JobEntryDAO extends AbstractEntityDAO<JobEntry, Long> {
     private AppointmentDAO appointmentDAO;
 
     @Override
-    protected JobEntry saveOrUpdateImpl(JobEntry entity) {
+    public JobEntry update(JobEntry entity) {
 
-        personDAO.saveOrUpdate(entity.getHumanResource());
-        personDAO.saveOrUpdate(entity.getJobHunter());
-        salaryDAO.saveOrUpdate(entity.getSalary());
+        if (entity.getHumanResource() != null) {
+            personDAO.saveOrUpdate(entity.getHumanResource());
+        }
+
+        if (entity.getJobHunter() != null) {
+            personDAO.saveOrUpdate(entity.getJobHunter());
+        }
+
+        if (entity.getSalary() != null) {
+            salaryDAO.saveOrUpdate(entity.getSalary());
+        }
+
         tagEntryDAO.saveOrUpdate(entity.getLabels());
         appointmentDAO.saveOrUpdate(entity.getAppointments());
 
-        return super.saveOrUpdateImpl(entity);
+        return super.update(entity);
     }
 
     @Override
     protected void saveImpl(JobEntry entity) {
 
-        personDAO.saveOrUpdate(entity.getHumanResource());
-        personDAO.saveOrUpdate(entity.getJobHunter());
-        salaryDAO.saveOrUpdate(entity.getSalary());
+        if (entity.getHumanResource() != null) {
+            personDAO.saveOrUpdate(entity.getHumanResource());
+        }
+
+        if (entity.getJobHunter() != null) {
+            personDAO.saveOrUpdate(entity.getJobHunter());
+        }
+
+        if (entity.getSalary() != null) {
+            salaryDAO.saveOrUpdate(entity.getSalary());
+        }
+
         tagEntryDAO.saveOrUpdate(entity.getLabels());
         appointmentDAO.saveOrUpdate(entity.getAppointments());
 
@@ -54,9 +72,17 @@ public class JobEntryDAO extends AbstractEntityDAO<JobEntry, Long> {
     @Override
     protected void removeImpl(JobEntry entity) {
 
-        personDAO.remove(entity.getHumanResource());
-        salaryDAO.remove(entity.getSalary());
-        appointmentDAO.remove(entity.getAppointments());
+        if (entity.getHumanResource() != null) {
+            personDAO.remove(entity.getHumanResource());
+        }
+
+        if (entity.getSalary() != null) {
+            salaryDAO.remove(entity.getSalary());
+        }
+
+        if (entity.getAppointments() != null) {
+            appointmentDAO.remove(entity.getAppointments());
+        }
 
         entity.setHumanResource(null);
         entity.setJobHunter(null);

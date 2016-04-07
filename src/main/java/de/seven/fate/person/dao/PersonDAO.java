@@ -31,11 +31,12 @@ public class PersonDAO extends AbstractEntityDAO<Person, Long> {
     }
 
     @Override
-    protected Person saveOrUpdateImpl(Person entity) {
+    public Person update(Person entity) {
+        notNull(entity);
 
         entity.setAddress(addressDAO.saveOrUpdate(entity.getAddress()));
 
-        return super.saveOrUpdateImpl(entity);
+        return super.update(entity);
     }
 
     @Override

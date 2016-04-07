@@ -65,12 +65,18 @@ public abstract class AbstractEntityDAO<E extends IdAble<I>, I extends Serializa
             return entity;
         }
 
-        return saveOrUpdateImpl(entity);
+        return update(entity);
     }
 
     public void saveOrUpdate(Collection<E> entities) {
 
-        Optional.ofNullable(entities).orElse(Collections.emptyList()).forEach(this::saveOrUpdateImpl);
+        Optional.ofNullable(entities).orElse(Collections.emptyList()).forEach(this::update);
+    }
+
+    public E update(E entity) {
+        notNull(entity);
+
+        return saveOrUpdate(get(entity), entity);
     }
 
     protected E saveOrUpdate(E recent, E entity) {
@@ -233,12 +239,10 @@ public abstract class AbstractEntityDAO<E extends IdAble<I>, I extends Serializa
     protected E mergeImpl(E entity) {
         assert entity != null;
 
-        return em.merge(entity);
-    }
+        E merge = em.merge(entity);
 
-    protected E saveOrUpdateImpl(E entity) {
-        notNull(entity);
+        em.flush();
 
-        return saveOrUpdate(get(entity), entity);
+        return merge;
     }
 }
